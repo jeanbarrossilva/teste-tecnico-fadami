@@ -13,13 +13,12 @@ class _HomePageState extends State<HomePage> {
     Todo(title: "Habilitar a interação com o checkbox"),
     Todo(title: "Implementar ListView na lista de tarefas"),
     Todo(
-      title:
-          "Na classe Todo, implementar metodo para inverter o status atual da tarefa",
-    ),
+        title:
+            "Na classe Todo, implementar metodo para inverter o status atual da tarefa"),
     Todo(
-      title:
-          "Na classe Todo, implementar o factory fromMap() para instanciar o objeto a partir de um Map<String, dynamic>",
-    ),
+        title:
+            "Na classe Todo, implementar o factory fromMap() para instanciar o objeto a partir de "
+            "um Map<String, dynamic>"),
     Todo(title: "Customizar item que esteja concluído"),
     Todo(title: "Adicionar um contador de tarefas. Ex.: 3/10"),
     Todo(
@@ -44,17 +43,29 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: List.generate(tasks.length, (index) {
-            final item = tasks[index];
+            final task = tasks[index];
 
             return ListTile(
-              title: Text(item.title),
-              leading: Checkbox(value: item.isCompleted, onChanged: (value) {}),
+              title: Text(task.title),
+              leading: Checkbox(
+                  value: task.isCompleted,
+                  onChanged: (value) {
+                    setState(() {
+                      if (value == null) {
+                        return;
+                      } else if (value) {
+                        task.complete();
+                      } else {
+                        task.uncomplete();
+                      }
+                    });
+                  }),
               onTap: () {
                 setState(() {
-                  if (item.isCompleted) {
-                    item.uncomplete();
+                  if (task.isCompleted) {
+                    task.uncomplete();
                   } else {
-                    item.complete();
+                    task.complete();
                   }
                 });
               },
