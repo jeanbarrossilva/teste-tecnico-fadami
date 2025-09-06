@@ -1,15 +1,14 @@
 class Todo {
   final String title;
-  bool isCompleted;
 
-  Todo({required this.title, this.isCompleted = false});
+  bool get isCompleted => _isCompleted;
 
-  void complete() {
-    isCompleted = true;
-  }
+  bool _isCompleted;
 
-  void uncomplete() {
-    isCompleted = false;
+  Todo({required this.title, isCompleted = false}) : _isCompleted = isCompleted;
+
+  void toggle() {
+    _isCompleted = !isCompleted;
   }
 
   Map<String, dynamic> toMap() {

@@ -44,30 +44,18 @@ class _HomePageState extends State<HomePage> {
             itemCount: tasks.length,
             itemBuilder: (context, index) {
               final task = tasks[index];
-
               return ListTile(
                 title: Text(task.title),
                 leading: Checkbox(
                     value: task.isCompleted,
                     onChanged: (value) {
                       setState(() {
-                        if (value == null) {
-                          return;
-                        } else if (value) {
-                          task.complete();
-                        } else {
-                          task.uncomplete();
-                        }
+                        if (value == null) return;
+                        task.toggle();
                       });
                     }),
                 onTap: () {
-                  setState(() {
-                    if (task.isCompleted) {
-                      task.uncomplete();
-                    } else {
-                      task.complete();
-                    }
-                  });
+                  setState(task.toggle);
                 },
               );
             }));
