@@ -39,40 +39,37 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tarefas")),
-      body: SingleChildScrollView(
-        child: Column(
-          children: List.generate(tasks.length, (index) {
-            final task = tasks[index];
+        appBar: AppBar(title: Text("Tarefas")),
+        body: ListView.builder(
+            itemCount: tasks.length,
+            itemBuilder: (context, index) {
+              final task = tasks[index];
 
-            return ListTile(
-              title: Text(task.title),
-              leading: Checkbox(
-                  value: task.isCompleted,
-                  onChanged: (value) {
-                    setState(() {
-                      if (value == null) {
-                        return;
-                      } else if (value) {
-                        task.complete();
-                      } else {
-                        task.uncomplete();
-                      }
-                    });
-                  }),
-              onTap: () {
-                setState(() {
-                  if (task.isCompleted) {
-                    task.uncomplete();
-                  } else {
-                    task.complete();
-                  }
-                });
-              },
-            );
-          }),
-        ),
-      ),
-    );
+              return ListTile(
+                title: Text(task.title),
+                leading: Checkbox(
+                    value: task.isCompleted,
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == null) {
+                          return;
+                        } else if (value) {
+                          task.complete();
+                        } else {
+                          task.uncomplete();
+                        }
+                      });
+                    }),
+                onTap: () {
+                  setState(() {
+                    if (task.isCompleted) {
+                      task.uncomplete();
+                    } else {
+                      task.complete();
+                    }
+                  });
+                },
+              );
+            }));
   }
 }
