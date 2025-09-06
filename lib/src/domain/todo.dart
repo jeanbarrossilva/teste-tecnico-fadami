@@ -2,10 +2,7 @@ class Todo {
   final String title;
   bool isCompleted;
 
-  Todo({
-    required this.title,
-    this.isCompleted = false,
-  });
+  Todo({required this.title, this.isCompleted = false});
 
   void complete() {
     isCompleted = true;
@@ -16,9 +13,6 @@ class Todo {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      "title": title,
-      "isCompleted": isCompleted,
-    };
+    return {"title": title, "isCompleted": isCompleted};
   }
 }
