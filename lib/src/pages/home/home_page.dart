@@ -39,7 +39,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Tarefas")),
+        appBar: AppBar(
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("Tarefas"),
+            Spacer(),
+            Text(
+                "${tasks.where((task) => task.isCompleted).length}/${tasks.length}")
+          ]),
+        ),
         body: ListView.builder(
             itemCount: tasks.length,
             itemBuilder: (context, index) {
