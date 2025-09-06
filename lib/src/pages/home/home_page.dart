@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testeapp/src/domain/todo.dart';
+import 'package:testeapp/src/widgets/task.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,26 +51,6 @@ class _HomePageState extends State<HomePage> {
         ),
         body: ListView.builder(
             itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              final task = tasks[index];
-              return ListTile(
-                title: Text(task.title,
-                    style: TextStyle(
-                        decoration: task.isCompleted
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none)),
-                leading: Checkbox(
-                    value: task.isCompleted,
-                    onChanged: (value) {
-                      setState(() {
-                        if (value == null) return;
-                        task.toggle();
-                      });
-                    }),
-                onTap: () {
-                  setState(task.toggle);
-                },
-              );
-            }));
+            itemBuilder: (context, index) => TaskTile(tasks[index])));
   }
 }
