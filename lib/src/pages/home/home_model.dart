@@ -5,7 +5,7 @@ import 'package:testeapp/src/domain/todo.dart';
 
 abstract base class HomeModel {
   Stream<List<Todo>> get tasksStream {
-    assertIsOpen();
+    _assertIsOpen();
     return _tasksStream;
   }
 
@@ -50,7 +50,7 @@ abstract base class HomeModel {
   Future<void> onDidClose_();
 
   Future<void> toggle({required String title}) async {
-    assertIsOpen();
+    _assertIsOpen();
     await onToggle_(title: title);
     _tasksSubject.add(List.unmodifiable(await getTasksInCurrentState_()));
   }
@@ -71,7 +71,7 @@ abstract base class HomeModel {
     await persist_(tasks: _modifiableTasksInInitialState);
   }
 
-  void assertIsOpen() {
+  void _assertIsOpen() {
     if (_isOpen) return;
     throw StateError(
         "Cannot perform an operation while the model is closed. Did you forget to call open()?");
