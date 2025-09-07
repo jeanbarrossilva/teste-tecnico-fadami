@@ -1,42 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:testeapp/src/domain/todo.dart';
+import 'package:testeapp/src/pages/home/home_controller.dart';
 import 'package:testeapp/src/widgets/task.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final HomeController controller;
+
+  const HomePage({required this.controller, super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Todo> tasks = [
-    Todo(title: "Habilitar a interação com o checkbox"),
-    Todo(title: "Implementar ListView na lista de tarefas"),
-    Todo(
-        title:
-            "Na classe Todo, implementar metodo para inverter o status atual da tarefa"),
-    Todo(
-        title:
-            "Na classe Todo, implementar o factory fromMap() para instanciar o objeto a partir de "
-            "um Map<String, dynamic>"),
-    Todo(title: "Customizar item que esteja concluído"),
-    Todo(title: "Adicionar um contador de tarefas. Ex.: 3/10"),
-    Todo(
-      title:
-          "Abstrair a tarefa para um Widget reutilizável no arquivo /src/widgets/task.dart",
-    ),
-    Todo(
-      title:
-          "Utilize a classe HiveRepository para salvar o estado da lista de tarefas no dispositivo",
-    ),
-    Todo(title: "Ao reiniciar o app o estado da lista salvo deve ser retomado"),
-    Todo(title: "Instalar e configurar o GetX no projeto"),
-    Todo(
-      title: "Refatorar o app.dart, home_page.dart e task.dart para usar GetX",
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +20,27 @@ class _HomePageState extends State<HomePage> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text("Tarefas"),
             Spacer(),
-            Text(
-                "${tasks.where((task) => task.isCompleted).length}/${tasks.length}")
+            StreamBuilder(
+                stream: widget.controller.taskCompletionToTotalRatioStream,
+                builder: (context, snapshot) => Text(snapshot.requireData))
           ]),
         ),
-        body: ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (context, index) => TaskTile(tasks[index])));
+        body: StreamBuilder(
+            stream: widget.controller.tasksStream,
+            builder: (context, snapshot) {
+              final tasks = snapshot.requireData;
+              return ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) =>
+                      TaskTile(tasks[index], onToggle: (id) async {
+                        await widget.controller.toggle(id: id);
+                      }));
+            }));
+  }
+
+  @override
+  void dispose() {
+    widget.controller.close();
+    super.dispose();
   }
 }

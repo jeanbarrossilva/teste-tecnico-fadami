@@ -2,28 +2,27 @@ import 'package:test/test.dart';
 import 'package:testeapp/src/domain/todo.dart';
 
 void main() {
-  group('Map-to-to-do conversion', () {
+  group('JSON-to-to-do conversion', () {
     test("Throws when 'title' is not present", () {
-      expect(() => Todo.fromMap({}), throwsA(isA<MissingMapKeyError>()));
+      expect(() => Todo.fromJson({}), throwsA(isA<MissingMapKeyError>()));
     });
     test("Without 'isCompleted'", () {
-      expect(Todo.fromMap({'title': 'A'}), equals(Todo(title: 'A')));
+      final expected = Todo(title: 'A');
+      expect(Todo.fromJson({'title': 'A'}), equals(expected));
     });
     test("With 'isCompleted'", () {
-      expect(Todo.fromMap({'title': 'A', 'isCompleted': true}),
-          equals(Todo(title: 'A', isCompleted: true)));
+      final expected = Todo(title: 'A', isCompleted: true);
+      expect(
+          Todo.fromJson({'title': 'A', 'isCompleted': true}), equals(expected));
     });
   });
   group('Completion toggling', () {
     test('Completes', () {
-      final task = Todo(title: 'A');
-      task.toggle();
-      expect(task.isCompleted, equals(true));
+      expect(Todo(title: 'A').toggled.isCompleted, equals(true));
     });
     test('Undoes completion', () {
-      final task = Todo(title: 'A', isCompleted: true);
-      task.toggle();
-      expect(task.isCompleted, equals(false));
+      expect(Todo(title: 'A', isCompleted: true).toggled.isCompleted,
+          equals(false));
     });
   });
 }

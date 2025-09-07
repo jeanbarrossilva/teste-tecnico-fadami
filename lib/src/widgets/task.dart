@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:testeapp/src/domain/todo.dart';
 
 class TaskTile extends StatefulWidget {
+  final void Function(String id) onToggle;
   final Todo task;
 
-  const TaskTile(this.task, {super.key});
+  const TaskTile(this.task, {required this.onToggle, super.key});
 
   @override
   State<StatefulWidget> createState() => _TaskTileState();
@@ -21,14 +22,8 @@ class _TaskTileState extends State<TaskTile> {
                         : TextDecoration.none)),
         leading: Checkbox(
             value: widget.task.isCompleted,
-            onChanged: (value) {
-              setState(() {
-                if (value == null) return;
-                widget.task.toggle();
-              });
-            }),
-        onTap: () {
-          setState(widget.task.toggle);
-        },
+            onChanged: (value) =>
+                setState(() => widget.onToggle(widget.task.title))),
+        onTap: () => setState(() => widget.onToggle(widget.task.title)),
       );
 }

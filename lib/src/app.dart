@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:testeapp/src/pages/home/home_controller.dart';
 import 'package:testeapp/src/pages/home/home_page.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final HomeController homeController;
+
+  const App({required this.homeController, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: HomePage(),
+      home: HomePage(controller: homeController),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

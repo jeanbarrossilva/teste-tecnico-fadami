@@ -1,33 +1,27 @@
 class Todo {
+  @override
+  int get hashCode => Object.hash(title, isCompleted);
+
+  Todo get toggled => Todo(title: title, isCompleted: !isCompleted);
+
   final String title;
+  final bool isCompleted;
 
-  bool get isCompleted => _isCompleted;
-
-  bool _isCompleted;
-
-  Todo({required this.title, isCompleted = false}) : _isCompleted = isCompleted;
+  Todo({required this.title, this.isCompleted = false});
 
   @override
   bool operator ==(Object other) =>
       other is Todo && title == other.title && isCompleted == other.isCompleted;
 
+  Map<String, dynamic> toJson() => {'title': title, 'isCompleted': isCompleted};
+
   @override
-  int get hashCode => Object.hash(title, isCompleted);
+  String toString() => 'Todo(title: $title, isCompleted: $isCompleted)';
 
-  void toggle() {
-    _isCompleted = !isCompleted;
-  }
-
-  Map<String, dynamic> toMap() {
-    return {"title": title, "isCompleted": isCompleted};
-  }
-
-  static Todo fromMap(Map<String, dynamic> map) {
-    final title =
-        map['title']?.toString() ?? (throw MissingMapKeyError(key: 'title'));
-    final bool isCompleted = map['isCompleted'] ?? false;
-    return Todo(title: title, isCompleted: isCompleted);
-  }
+  Todo.fromJson(Map<String, dynamic> json)
+      : title = json['title']?.toString() ??
+            (throw MissingMapKeyError(key: 'title')),
+        isCompleted = json['isCompleted'] ?? false;
 }
 
 class MissingMapKeyError extends ArgumentError {
