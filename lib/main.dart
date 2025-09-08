@@ -5,7 +5,6 @@ import 'package:testeapp/src/app.dart';
 import 'package:testeapp/src/pages/home/home_controller.dart';
 import 'package:testeapp/src/pages/home/hive_home_model.dart';
 import 'package:testeapp/src/repositories/hive_repository.dart';
-import 'package:testeapp/src/utils/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
