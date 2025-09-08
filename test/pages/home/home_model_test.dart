@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:testeapp/src/domain/todo.dart';
 import 'package:testeapp/src/pages/home/home_model.dart';
-import 'package:testeapp/test/pages/home/in_memory_home_model.dart';
+
+import 'in_memory_home_model.dart';
 
 void main() {
   late HomeModel homeModel;
